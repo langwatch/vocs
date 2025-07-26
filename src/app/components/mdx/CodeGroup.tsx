@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactElement } from 'react'
+import { type ReactElement, useEffect, useState } from 'react'
 
 import * as Tabs from '../Tabs.js'
 import * as styles from './CodeGroup.css.js'
@@ -16,7 +16,7 @@ export function CodeGroup({ children }: { children: ReactElement[] }) {
     return { title, content }
   })
 
-  const tabValues = tabs.map(tab => tab.title || '').filter(Boolean)
+  const tabValues = tabs.map((tab) => tab.title || '').filter(Boolean)
   const [selectedTab, setSelectedTab] = useState<string>(tabs[0]?.title || '')
 
   // Load from localStorage on mount and set up listener
@@ -56,7 +56,10 @@ export function CodeGroup({ children }: { children: ReactElement[] }) {
 
     return () => {
       window.removeEventListener('storage', handleStorageChange)
-      window.removeEventListener('codegroup-storage-change', handleCustomStorageChange as EventListener)
+      window.removeEventListener(
+        'codegroup-storage-change',
+        handleCustomStorageChange as EventListener,
+      )
     }
   }, [tabValues])
 
@@ -66,9 +69,11 @@ export function CodeGroup({ children }: { children: ReactElement[] }) {
     try {
       localStorage.setItem(STORAGE_KEY, value)
       // Dispatch custom event for same-page synchronization
-      window.dispatchEvent(new CustomEvent('codegroup-storage-change', {
-        detail: { value }
-      }))
+      window.dispatchEvent(
+        new CustomEvent('codegroup-storage-change', {
+          detail: { value },
+        }),
+      )
     } catch (error) {
       console.warn('Could not save code group tab to localStorage:', error)
     }

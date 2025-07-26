@@ -13,7 +13,7 @@ export function CodeGroup({ children }) {
         const content = props.children;
         return { title, content };
     });
-    const tabValues = tabs.map(tab => tab.title || '').filter(Boolean);
+    const tabValues = tabs.map((tab) => tab.title || '').filter(Boolean);
     const [selectedTab, setSelectedTab] = useState(tabs[0]?.title || '');
     // Load from localStorage on mount and set up listener
     useEffect(() => {
@@ -57,7 +57,7 @@ export function CodeGroup({ children }) {
             localStorage.setItem(STORAGE_KEY, value);
             // Dispatch custom event for same-page synchronization
             window.dispatchEvent(new CustomEvent('codegroup-storage-change', {
-                detail: { value }
+                detail: { value },
             }));
         }
         catch (error) {
