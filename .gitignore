@@ -6,3 +6,4 @@ tsconfig.*.tsbuildinfo
 vocs.config.ts.timestamp-*
 .vercel
 .vocs
+!src/_lib/**/*
