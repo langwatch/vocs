@@ -230,6 +230,9 @@ importers:
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
+      vfile-matter:
+        specifier: ^5.0.1
+        version: 5.0.1
       vite:
         specifier: ^6.1.0
         version: 6.4.1(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.20.6)(yaml@2.8.1)
@@ -7669,7 +7672,7 @@ snapshots:
 
   '@types/hast@3.0.3':
     dependencies:
-      '@types/unist': 3.0.1
+      '@types/unist': 3.0.3
 
   '@types/hast@3.0.4':
     dependencies:
@@ -9119,7 +9122,7 @@ snapshots:
       hast-util-from-parse5: 8.0.3
       parse5: 7.3.0
       vfile: 6.0.3
-      vfile-message: 4.0.2
+      vfile-message: 4.0.3
 
   hast-util-from-parse5@8.0.3:
     dependencies:
@@ -11353,7 +11356,7 @@ snapshots:
   vfile@6.0.3:
     dependencies:
       '@types/unist': 3.0.3
-      vfile-message: 4.0.2
+      vfile-message: 4.0.3
 
   viem@2.38.3(typescript@5.9.3):
     dependencies:

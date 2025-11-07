@@ -6,13 +6,13 @@ import { useConfig } from '../hooks/useConfig.js';
 import { usePageData } from '../hooks/usePageData.js';
 import { useSidebar } from '../hooks/useSidebar.js';
 import { Icon } from './Icon.js';
+import { ChevronRight } from './icons/ChevronRight.js';
 import { Link } from './Link.js';
 import { NavLogo } from './NavLogo.js';
 import { RouterLink } from './RouterLink.js';
 import * as styles from './Sidebar.css.js';
 import { Socials } from './Socials.js';
 import { ThemeToggle } from './ThemeToggle.js';
-import { ChevronRight } from './icons/ChevronRight.js';
 export function Sidebar(props) {
     const { className, onClickItem } = props;
     const { theme } = useConfig();
@@ -20,7 +20,7 @@ export function Sidebar(props) {
     const sidebarRef = useRef(null);
     const sidebar = useSidebar();
     const [backPath, setBackPath] = useState('/');
-    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+    // biome-ignore lint/correctness/useExhaustiveDependencies: _
     useEffect(() => {
         if (typeof window === 'undefined')
             return;
@@ -97,8 +97,8 @@ function SidebarItem(props) {
             return;
         requestAnimationFrame(() => {
             const offsetTop = itemRef.current?.offsetTop ?? 0;
-            const sidebarHeight = sidebarRef?.current?.clientHeight ?? 0;
-            if (offsetTop < sidebarHeight)
+            const navHeight = (sidebarRef?.current?.clientHeight ?? 0) - 120;
+            if (offsetTop < navHeight)
                 return;
             sidebarRef?.current?.scrollTo({ top: offsetTop - 100 });
         });
@@ -115,9 +115,7 @@ function SidebarItem(props) {
                             (item.link ? (_jsx(Link, { "data-active": Boolean(match), onClick: (e) => {
                                     onClick?.(e);
                                     onCollapseInteraction(e);
-                                }, className: clsx(depth === 0 ? [styles.sectionTitle, styles.sectionTitleLink] : styles.item, hasActiveChildItem && styles.sectionHeaderActive, item.disabled && styles.disabledItem), href: item.link, variant: "styleless", children: item.text })) : (_jsx("div", { className: clsx(depth === 0 ? styles.sectionTitle : styles.item, item.disabled && styles.disabledItem), children: item.text }))), isCollapsable && (_jsx("div", { 
-                            // biome-ignore lint/a11y/useSemanticElements:
-                            role: "button", tabIndex: 0, onClick: onCollapseTriggerInteraction, onKeyDown: onCollapseTriggerInteraction, children: _jsx(Icon, { className: clsx(styles.sectionCollapse, collapsed && styles.sectionCollapseActive), label: "toggle section", icon: ChevronRight, size: "16px" }) }))] })), !collapsed && (_jsx("div", { className: clsx(styles.items, depth !== 0 && styles.levelInset), children: item.items &&
+                                }, className: clsx(depth === 0 ? [styles.sectionTitle, styles.sectionTitleLink] : styles.item, hasActiveChildItem && styles.sectionHeaderActive, item.disabled && styles.disabledItem), href: item.link, variant: "styleless", children: item.text })) : (_jsx("div", { className: clsx(depth === 0 ? styles.sectionTitle : styles.item, item.disabled && styles.disabledItem), children: item.text }))), isCollapsable && (_jsx("div", { role: "button", tabIndex: 0, onClick: onCollapseTriggerInteraction, onKeyDown: onCollapseTriggerInteraction, children: _jsx(Icon, { className: clsx(styles.sectionCollapse, collapsed && styles.sectionCollapseActive), label: "toggle section", icon: ChevronRight, size: "16px" }) }))] })), !collapsed && (_jsx("div", { className: clsx(styles.items, depth !== 0 && styles.levelInset), children: item.items &&
                         item.items.length > 0 &&
                         depth < 5 &&
                         item.items.map((item, i) => (_jsx(SidebarItem, { depth: depth + 1, item: item, onClick: onClick, sidebarRef: sidebarRef }, `${item.text}${i}`))) }))] }));

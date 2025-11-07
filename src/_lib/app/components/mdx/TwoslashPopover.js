@@ -1,5 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { FloatingArrow, arrow, offset, safePolygon, shift, useFloating, useHover, useInteractions, } from '@floating-ui/react';
+import { arrow, FloatingArrow, offset, safePolygon, shift, useFloating, useHover, useInteractions, } from '@floating-ui/react';
 import { useRef, useState } from 'react';
 import { primitiveColorVars } from '../../styles/vars.css.js';
 export function TwoslashPopover({ children, ...props }) {

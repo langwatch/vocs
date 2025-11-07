@@ -4,9 +4,9 @@ import { ArrowLeftIcon, ChevronRightIcon, FileIcon, ListBulletIcon, MagnifyingGl
 import * as Label from '@radix-ui/react-label';
 import clsx from 'clsx';
 import { default as Mark } from 'mark.js';
+import { useQueryState } from 'nuqs';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { useQueryState } from 'nuqs';
 import { useConfig } from '../hooks/useConfig.js';
 import { useDebounce } from '../hooks/useDebounce.js';
 import { useLocalStorage } from '../hooks/useLocalStorage.js';
@@ -125,7 +125,7 @@ export function SearchDialog(props) {
         return () => {
             window.removeEventListener('keydown', keyDownHandler);
         };
-    }, [navigate, resultsCount, selectedResult, props.open, props.onClose, setFilterText]);
+    }, [navigate, resultsCount, selectedResult, props.open, props.onClose, setFilterText, props]);
     useEffect(() => {
         if (searchTerm === '')
             return;
@@ -145,11 +145,8 @@ export function SearchDialog(props) {
                                     setFilterText('');
                                     inputRef.current?.focus();
                                 }, children: "\u232B" })] }), _jsxs("ul", { className: styles.results, role: results.length ? 'listbox' : undefined, onMouseMove: () => setDisableMouseOver(false), ref: listRef, children: [searchTerm && results.length === 0 && (_jsxs("li", { children: ["No results for \"", _jsx("span", { children: searchTerm }), "\""] })), results.map((result, index) => (
-                            // biome-ignore lint/a11y/useFocusableInteractive:
-                            _jsx("li", { 
-                                // biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole:
-                                // biome-ignore lint/a11y/useSemanticElements:
-                                role: "option", className: clsx(styles.result, index === selectedIndex && styles.resultSelected), "aria-selected": index === selectedIndex, "aria-label": [...result.titles.filter((title) => Boolean(title)), result.title].join(' > '), children: _jsxs(Link, { to: result.href, onClick: (event) => {
+                            // biome-ignore lint/a11y/useAriaPropsSupportedByRole: _
+                            _jsx("li", { className: clsx(styles.result, index === selectedIndex && styles.resultSelected), "aria-selected": index === selectedIndex, "aria-label": [...result.titles.filter((title) => Boolean(title)), result.title].join(' > '), children: _jsxs(Link, { to: result.href, onClick: (event) => {
                                         // Don't close the dialog if the user is opening the link in a new tab.
                                         if (event.metaKey)
                                             return;
@@ -157,11 +154,11 @@ export function SearchDialog(props) {
                                     }, onMouseEnter: () => !disableMouseOver && setSelectedIndex(index), onFocus: () => setSelectedIndex(index), children: [_jsxs("div", { className: styles.titles, children: [result.isPage ? (_jsx(FileIcon, { className: styles.resultIcon })) : (_jsx("span", { className: styles.resultIcon, children: "#" })), result.titles
                                                     .filter((title) => Boolean(title))
                                                     .map((title) => (_jsxs("span", { className: styles.title, children: [_jsx("span", { 
-                                                            // biome-ignore lint/security/noDangerouslySetInnerHtml:
+                                                            // biome-ignore lint/security/noDangerouslySetInnerHtml: _
                                                             dangerouslySetInnerHTML: { __html: title } }), _jsx(ChevronRightIcon, { className: styles.titleIcon })] }, title))), _jsx("span", { className: styles.title, children: _jsx("span", { 
-                                                        // biome-ignore lint/security/noDangerouslySetInnerHtml:
+                                                        // biome-ignore lint/security/noDangerouslySetInnerHtml: _
                                                         dangerouslySetInnerHTML: { __html: result.title } }) })] }), showDetailView && result.text?.trim() && (_jsx("div", { className: styles.excerpt, children: _jsx(Content, { className: styles.content, children: _jsx("div", { 
-                                                    // biome-ignore lint/security/noDangerouslySetInnerHtml:
+                                                    // biome-ignore lint/security/noDangerouslySetInnerHtml: _
                                                     dangerouslySetInnerHTML: { __html: result.html } }) }) }))] }) }, result.id)))] }), _jsxs("div", { className: styles.searchShortcuts, children: [_jsx(KeyboardShortcut, { description: "Navigate", keys: ['↑', '↓'] }), _jsx(KeyboardShortcut, { description: "Select", keys: ['enter'] }), _jsx(KeyboardShortcut, { description: "Close", keys: ['esc'] }), _jsx(KeyboardShortcut, { description: "Reset", keys: ['⌘', '⌫'] })] })] })] }));
 }
 function formMarkRegex(terms) {

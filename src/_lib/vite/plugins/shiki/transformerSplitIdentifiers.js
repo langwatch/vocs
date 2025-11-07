@@ -9,7 +9,7 @@ export const transformerSplitIdentifiers = () => ({
             return;
         if (child.value.trim().length === 0)
             return;
-        if (child.value.match(/\/\/ \[!/))
+        if ([/\/\/ \[!/, /\/\* \[!/].some((reg) => child.value.match(reg)))
             return;
         let identifier = false;
         let item = '';

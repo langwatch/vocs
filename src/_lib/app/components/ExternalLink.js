@@ -1,6 +1,6 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-import { clsx } from 'clsx';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
+import { clsx } from 'clsx';
 import { forwardRef } from 'react';
 import { useConfig } from '../hooks/useConfig.js';
 import * as styles from './ExternalLink.css.js';

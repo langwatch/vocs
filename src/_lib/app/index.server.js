@@ -1,8 +1,7 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 import './styles/index.css.js';
 import { NuqsAdapter } from 'nuqs/adapters/react';
-import { Route, Routes } from 'react-router';
-import { StaticRouter, StaticRouterProvider, createStaticHandler, createStaticRouter, } from 'react-router';
+import { createStaticHandler, createStaticRouter, Route, Routes, StaticRouter, StaticRouterProvider, } from 'react-router';
 import { resolveVocsConfig } from '../vite/utils/resolveVocsConfig.js';
 import { ConfigProvider } from './hooks/useConfig.js';
 import { routes } from './routes.js';

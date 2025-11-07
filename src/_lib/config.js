@@ -1,9 +1,10 @@
-export async function defineConfig({ aiCta = true, blogDir = './pages/blog', cacheDir, head, ogImageUrl, rootDir = 'docs', title = 'Docs', titleTemplate = `%s – ${title}`, ...config }) {
+export async function defineConfig({ aiCta = true, blogDir = './pages/blog', cacheDir, checkDeadlinks = true, head, ogImageUrl, rootDir = 'docs', title = 'Docs', titleTemplate = `%s – ${title}`, ...config }) {
     const basePath = parseBasePath(config.basePath);
     return {
         aiCta,
         blogDir,
         cacheDir,
+        checkDeadlinks,
         head,
         ogImageUrl,
         rootDir,
@@ -116,7 +117,9 @@ function parseMarkdown(markdown) {
     };
 }
 const socialsMeta = {
+    bluesky: { label: 'Bluesky', type: 'bluesky' },
     discord: { label: 'Discord', type: 'discord' },
+    farcaster: { label: 'Farcaster', type: 'farcaster' },
     github: { label: 'GitHub', type: 'github' },
     telegram: { label: 'Telegram', type: 'telegram' },
     warpcast: { label: 'Warpcast', type: 'warpcast' },

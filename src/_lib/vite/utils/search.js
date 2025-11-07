@@ -1,24 +1,25 @@
 import { readFileSync } from 'node:fs';
+import { glob } from 'node:fs/promises';
 import { join, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { compile, run } from '@mdx-js/mdx';
 import debug_ from 'debug';
 import { default as fs } from 'fs-extra';
-import { globby } from 'globby';
 import MiniSearch from 'minisearch';
 import pLimit from 'p-limit';
 import { Fragment } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
 import * as runtime from 'react/jsx-runtime';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { matter } from 'vfile-matter';
 import { getRehypePlugins, getRemarkPlugins } from '../plugins/mdx.js';
 import * as cache_ from './cache.js';
 import { hash } from './hash.js';
 import { slash } from './slash.js';
 const limit = pLimit(30);
 export const debug = debug_('vocs:search');
-export async function buildIndex({ baseDir, cacheDir, }) {
+export async function buildIndex({ baseDir, cacheDir }) {
     const cache = cache_.search({ cacheDir });
-    const pagesPaths = await globby(`${resolve(baseDir, 'pages')}/**/*.{md,mdx}`);
+    const pagesPaths = await Array.fromAsync(glob(`${resolve(baseDir, 'pages')}/**/*.{md,mdx}`));
     const rehypePlugins = getRehypePlugins({ cacheDir, rootDir: baseDir, twoslash: false });
     const documents = await Promise.all(pagesPaths.map((pagePath) => limit(async (pagePath) => {
         const mdx = readFileSync(pagePath, 'utf-8');
@@ -26,7 +27,11 @@ export async function buildIndex({ baseDir, cacheDir, }) {
         const pageCache = cache.get(key) ?? {};
         if (pageCache.mdx === mdx)
             return pageCache.document;
-        const html = await processMdx(pagePath, mdx, { rehypePlugins });
+        const { html, frontmatter } = await processMdx(pagePath, mdx, { rehypePlugins });
+        if (frontmatter.searchable === false) {
+            cache.set(key, { mdx, document: [] });
+            return [];
+        }
         const sections = splitPageIntoSections(html);
         if (sections.length === 0) {
             cache.set(key, { mdx, document: [] });
@@ -76,7 +81,7 @@ export async function processMdx(filePath, file, options) {
         const compiled = await compile(file, {
             baseUrl: pathToFileURL(filePath).href,
             outputFormat: 'function-body',
-            remarkPlugins,
+            remarkPlugins: [...remarkPlugins, () => (_, file) => matter(file)],
             rehypePlugins,
         });
         const { default: MDXContent } = await run(compiled, { ...runtime, Fragment });
@@ -84,11 +89,11 @@ export async function processMdx(filePath, file, options) {
         // TODO: Pass components - vanilla extract and virtual module errors
         // components,
         }));
-        return html;
+        return { html, frontmatter: compiled.data?.matter };
     }
-    catch (error) {
+    catch (_error) {
         // TODO: Resolve imports (e.g. virtual modules)
-        return '';
+        return { html: '', frontmatter: {} };
     }
 }
 export function getDocId(baseDir, file) {
@@ -105,7 +110,7 @@ export function splitPageIntoSections(html) {
     let parentTitles = [];
     const sections = [];
     for (let i = 0; i < result.length; i += 3) {
-        const level = Number.parseInt(result[i]) - 1;
+        const level = Number.parseInt(result[i], 10) - 1;
         const heading = result[i + 1];
         const headingResult = headingContentRegex.exec(heading);
         const title = clearHtmlTags(headingResult?.[1] ?? '').trim();

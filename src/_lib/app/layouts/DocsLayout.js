@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import { assignInlineVars } from '@vanilla-extract/dynamic';
 import clsx from 'clsx';
 import { useInView } from 'react-intersection-observer';
-import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { bannerHeight } from '../components/Banner.css.js';
 import { Banner } from '../components/Banner.js';
 import { Content } from '../components/Content.js';
@@ -17,7 +17,7 @@ import { useLocalStorage } from '../hooks/useLocalStorage.js';
 import { usePageData } from '../hooks/usePageData.js';
 import { contentVars, defaultFontFamily, fontFamilyVars } from '../styles/vars.css.js';
 import * as styles from './DocsLayout.css.js';
-export function DocsLayout({ children, }) {
+export function DocsLayout({ children }) {
     const { banner, font } = useConfig();
     const { frontmatter = {} } = usePageData();
     const { content } = frontmatter;

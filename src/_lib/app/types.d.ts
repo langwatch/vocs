@@ -16,6 +16,7 @@ export type Frontmatter = {
     };
     date?: string;
     description?: string;
+    searchable?: boolean;
     title?: string;
 } & Partial<Layout>;
 export type Layout = {

@@ -4,7 +4,6 @@ export function mergeRefs(...refs) {
     };
 }
 export function setRef(val, ...refs) {
-    // biome-ignore lint/complexity/noForEach:
     refs.forEach((ref) => {
         if (typeof ref === 'function') {
             ref(val);

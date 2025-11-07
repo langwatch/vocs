@@ -1,6 +1,6 @@
-export declare const bannerBackgroundColor: `var(--${string})` | `var(--${string}, ${string})` | `var(--${string}, ${number})`;
-export declare const bannerHeight: `var(--${string})` | `var(--${string}, ${string})` | `var(--${string}, ${number})`;
-export declare const bannerTextColor: `var(--${string})` | `var(--${string}, ${string})` | `var(--${string}, ${number})`;
+export declare const bannerBackgroundColor: `var(--${string})`;
+export declare const bannerHeight: `var(--${string})`;
+export declare const bannerTextColor: `var(--${string})`;
 export declare const root: string;
 export declare const content: string;
 export declare const inner: string;

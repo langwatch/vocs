@@ -49,10 +49,8 @@ export function dev() {
                         const html = await toMarkup({
                             body,
                             config,
-                            head: (_jsxs(_Fragment, { children: [_jsx("script", { type: "module", 
-                                        // @ts-expect-error
-                                        fetchPriority: "high", blocking: "render", src: resolve(import.meta.dirname, '../../app/utils/initializeTheme.js') }), [...styleSet.values(), ...styleOverrideSet.values()].map((style, i) => (_jsx("style", { "data-vocs-temp-style": "true", 
-                                        // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+                            head: (_jsxs(_Fragment, { children: [_jsx("script", { type: "module", fetchPriority: "high", blocking: "render", src: resolve(import.meta.dirname, '../../app/utils/initializeTheme.js') }), [...styleSet.values(), ...styleOverrideSet.values()].map((style, i) => (_jsx("style", { "data-vocs-temp-style": "true", 
+                                        // biome-ignore lint/security/noDangerouslySetInnerHtml: _
                                         dangerouslySetInnerHTML: { __html: style } }, i)))] })),
                             location: '/',
                             template,

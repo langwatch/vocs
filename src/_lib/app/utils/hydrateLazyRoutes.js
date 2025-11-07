@@ -6,7 +6,7 @@ export async function hydrateLazyRoutes(routes, basePath) {
     // so we can hydrate the SSR-rendered content synchronously
     if (lazyMatches && lazyMatches?.length > 0) {
         await Promise.all(lazyMatches.map(async (m) => {
-            const routeModule = await m.route.lazy();
+            const routeModule = typeof m.route.lazy === 'function' ? await m.route.lazy() : m.route.lazy;
             Object.assign(m.route, {
                 ...routeModule,
                 lazy: undefined,

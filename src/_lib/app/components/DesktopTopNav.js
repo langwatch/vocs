@@ -8,8 +8,8 @@ import { useLayout } from '../hooks/useLayout.js';
 import { deserializeElement } from '../utils/deserializeElement.js';
 import { DesktopSearch } from './DesktopSearch.js';
 import * as styles from './DesktopTopNav.css.js';
-import { NavLogo } from './NavLogo.js';
 import * as NavigationMenu from './NavigationMenu.js';
+import { NavLogo } from './NavLogo.js';
 import { RouterLink } from './RouterLink.js';
 DesktopTopNav.Curtain = Curtain;
 export function DesktopTopNav() {
@@ -22,10 +22,10 @@ export function Curtain() {
 }
 function Navigation() {
     const { topNav } = useConfig();
+    const { pathname } = useLocation();
+    const activeIds = useActiveNavIds({ pathname, items: topNav || [] });
     if (!topNav)
         return null;
-    const { pathname } = useLocation();
-    const activeIds = useActiveNavIds({ pathname, items: topNav });
     return (_jsx(NavigationMenu.Root, { delayDuration: 0, children: _jsxs(NavigationMenu.List, { children: [topNav.map((item, i) => {
                     if (item.element)
                         return deserializeElement(item.element);

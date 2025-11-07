@@ -25,8 +25,9 @@ export function Pre({ children, className, ...props }) {
             };
         return children;
     }
-    // biome-ignore lint/correctness/useExhaustiveDependencies:
-    const children_ = useMemo(() => recurseChildren(children), [children]);
+    const children_ = useMemo(() => recurseChildren(children), 
+    // biome-ignore lint/correctness/useExhaustiveDependencies: _
+    [children, recurseChildren]);
     const wrap = (children) => {
         if (className?.includes('shiki'))
             return (_jsxs(CodeBlock, { children: [props['data-title'] && (_jsx(CodeTitle, { language: props['data-lang'], children: props['data-title'] })), children] }));

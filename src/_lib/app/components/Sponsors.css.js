@@ -29,8 +29,15 @@ export const column = style({
     border: `1px solid ${primitiveColorVars.border}`,
     display: 'flex',
     justifyContent: 'center',
-    padding: spaceVars['32'],
+    paddingBottom: spaceVars['18'],
+    paddingTop: spaceVars['18'],
     width: `calc(${columnsVar} * 100%)`,
+    '@media': {
+        'screen and (max-width: 768px)': {
+            paddingBottom: spaceVars['8'],
+            paddingTop: spaceVars['8'],
+        },
+    },
 }, 'column');
 export const sponsor = style({
     transition: 'background-color 0.1s',
@@ -42,7 +49,13 @@ export const sponsor = style({
 }, 'sponsor');
 export const image = style({
     filter: 'grayscale(1)',
-    height: heightVar,
+    height: `calc(${heightVar} * 1.2)`,
+    width: '75%',
+    '@media': {
+        'screen and (min-width: 768px)': {
+            padding: spaceVars['8'],
+        },
+    },
     transition: 'filter 0.1s',
     selectors: {
         '.dark &': {

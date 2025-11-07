@@ -1,12 +1,12 @@
 import { readFileSync } from 'node:fs';
+import { glob } from 'node:fs/promises';
 import { extname, resolve } from 'node:path';
-import { globby } from 'globby';
 import { getGitTimestamp } from '../utils/getGitTimestamp.js';
 import { resolveVocsConfig } from '../utils/resolveVocsConfig.js';
 export function virtualRoutes() {
     const virtualModuleId = 'virtual:routes';
     const resolvedVirtualModuleId = `\0${virtualModuleId}`;
-    let glob;
+    let globPattern;
     let paths = [];
     return {
         name: 'routes',
@@ -33,7 +33,7 @@ export function virtualRoutes() {
                 let code = 'export const routes = [';
                 for (const path of paths) {
                     const type = extname(path).match(/(mdx|md)/) ? 'mdx' : 'jsx';
-                    const replacer = glob.split('*')[0];
+                    const replacer = globPattern.split('*')[0];
                     const content = readFileSync(path, 'utf-8');
                     const filePath = path.replace(`${pagesPath}/`, '');
                     const fileGitTimestamp = await getGitTimestamp(path);
@@ -57,8 +57,8 @@ export function virtualRoutes() {
             const { config } = await resolveVocsConfig();
             const { rootDir } = config;
             const pagesPath = resolve(rootDir, 'pages');
-            glob = `${pagesPath}/**/*.{md,mdx,ts,tsx,js,jsx}`;
-            paths = await globby(glob);
+            globPattern = `${pagesPath}/**/*.{md,mdx,ts,tsx,js,jsx}`;
+            paths = await Array.fromAsync(glob(globPattern));
         },
         handleHotUpdate() {
             // TODO: handle changes

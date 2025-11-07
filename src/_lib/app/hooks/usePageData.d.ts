@@ -1,16 +1,11 @@
 import type { Module } from '../types.js';
-export declare function usePageData(): {
+export type PageData = {
     content?: string;
     filePath?: string;
-    frontmatter: Module["frontmatter"];
+    frontmatter: Module['frontmatter'];
     lastUpdatedAt?: number;
     previousPath?: string;
 };
-export declare const PageDataContext: import("react").Context<{
-    content?: string;
-    filePath?: string;
-    frontmatter: Module["frontmatter"];
-    lastUpdatedAt?: number;
-    previousPath?: string;
-} | undefined>;
+export declare function usePageData(): PageData;
+export declare const PageDataContext: import("react").Context<PageData | undefined>;
 //# sourceMappingURL=usePageData.d.js.map

@@ -258,7 +258,7 @@ export function twoslashRenderer() {
         },
     };
 }
-const regexType = /^[A-Z][a-zA-Z0-9_]*(\<[^\>]*\>)?:/;
+const regexType = /^[A-Z][a-zA-Z0-9_]*(<[^>]*>)?:/;
 const regexFunction = /^[a-zA-Z0-9_]*\(/;
 /**
  * The default hover info processor, which will do some basic cleanup

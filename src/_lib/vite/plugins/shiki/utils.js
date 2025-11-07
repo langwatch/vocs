@@ -6,7 +6,6 @@ export function transformerNotationMap(options = {}, name = '@shikijs/transforme
     const { classMap = {}, classActivePre = undefined } = options;
     return createCommentNotationTransformer(name, new RegExp(`\\s*(?://|/\\*|<!--|#)\\s+\\[!code (${Object.keys(classMap).map(escapeRegExp).join('|')})(:\\d+)?\\]\\s*(?:\\*/|-->)?`), function ([_, match, range = ':1'], _line, _comment, lines, index) {
         const lineNum = Number.parseInt(range.slice(1), 10);
-        // biome-ignore lint/complexity/noForEach:
         lines.slice(index, index + lineNum).forEach((line) => {
             addClassToHast(line, classMap[match]);
         });

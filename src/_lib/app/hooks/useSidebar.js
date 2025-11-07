@@ -5,14 +5,16 @@ export function useSidebar() {
     const { pathname } = useLocation();
     const config = useConfig();
     const { sidebar } = config;
+    const sidebarKey = useMemo(() => {
+        if (!sidebar)
+            return undefined;
+        const keys = Object.keys(sidebar).filter((key) => pathname.startsWith(key));
+        return keys[keys.length - 1];
+    }, [sidebar, pathname]);
     if (!sidebar)
         return { items: [] };
     if (Array.isArray(sidebar))
         return { items: sidebar };
-    const sidebarKey = useMemo(() => {
-        const keys = Object.keys(sidebar).filter((key) => pathname.startsWith(key));
-        return keys[keys.length - 1];
-    }, [sidebar, pathname]);
     if (!sidebarKey)
         return { items: [] };
     if (Array.isArray(sidebar[sidebarKey]))

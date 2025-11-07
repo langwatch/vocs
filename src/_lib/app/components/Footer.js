@@ -13,11 +13,11 @@ import { useSidebar } from '../hooks/useSidebar.js';
 import * as styles from './Footer.css.js';
 import { sizeVar } from './Icon.css.js';
 import { Icon } from './Icon.js';
+import { ArrowLeft } from './icons/ArrowLeft.js';
+import { ArrowRight } from './icons/ArrowRight.js';
 import { KeyboardShortcut } from './KeyboardShortcut.js';
 import { Link } from './Link.js';
 import { Socials } from './Socials.js';
-import { ArrowLeft } from './icons/ArrowLeft.js';
-import { ArrowRight } from './icons/ArrowRight.js';
 export function Footer() {
     const { layout } = useLayout();
     const mounted = useMounted();
@@ -51,7 +51,7 @@ function Navigation() {
         return [flattenedSidebar[currentPageIndex - 1], flattenedSidebar[currentPageIndex + 1]];
     }, [currentPageIndex, flattenedSidebar]);
     const navigate = useNavigate();
-    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+    // biome-ignore lint/correctness/useExhaustiveDependencies: _
     useEffect(() => {
         let index = currentPageIndex;
         let isListening = false;

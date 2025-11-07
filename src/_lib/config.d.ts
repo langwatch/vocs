@@ -4,6 +4,7 @@ import type { ReactElement } from 'react';
 import type { TwoslashOptions } from 'twoslash';
 import type { PluggableList } from 'unified';
 import type { UserConfig } from 'vite';
+import type { PageData } from './app/hooks/usePageData.js';
 import type { borderRadiusVars, contentVars, fontFamilyVars, fontSizeVars, fontWeightVars, lineHeightVars, outlineVars, primitiveColorVars, semanticColorVars, sidebarVars, spaceVars, topNavVars, viewportVars, zIndexVars } from './app/styles/vars.css.js';
 type RequiredBy<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 type RequiredProperties = 'blogDir' | 'markdown' | 'rootDir' | 'title' | 'titleTemplate';
@@ -62,6 +63,16 @@ export type Config<parsed extends boolean = false, colorScheme extends ColorSche
      * @default "node_modules/vocs/_lib/vite/.vocs/cache"
      */
     cacheDir?: string;
+    /**
+     * Whether or not to check for dead links in the documentation.
+     *
+     * - `true`: Enable dead link checking and throw errors on dead links.
+     * - `false`: Disable dead link checking.
+     * - `"warn"`: Enable dead link checking but only warn instead of throwing errors.
+     *
+     * @default true
+     */
+    checkDeadlinks?: boolean | 'warn';
     /**
      * General description for the documentation.
      */
@@ -163,7 +174,7 @@ export type Config<parsed extends boolean = false, colorScheme extends ColorSche
     vite?: UserConfig;
 }, parsed extends true ? RequiredProperties : never>;
 export type ParsedConfig = Config<true>;
-export declare function defineConfig<colorScheme extends ColorScheme = undefined>({ aiCta, blogDir, cacheDir, head, ogImageUrl, rootDir, title, titleTemplate, ...config }: Config<false, colorScheme>): Promise<ParsedConfig>;
+export declare function defineConfig<colorScheme extends ColorScheme = undefined>({ aiCta, blogDir, cacheDir, checkDeadlinks, head, ogImageUrl, rootDir, title, titleTemplate, ...config }: Config<false, colorScheme>): Promise<ParsedConfig>;
 export declare const getDefaultConfig: () => Promise<ParsedConfig>;
 export declare function parseViteConfig(viteConfig: UserConfig | undefined, { basePath }: {
     basePath?: string;
@@ -188,7 +199,7 @@ export type EditLink = {
     /**
      * Link pattern
      */
-    pattern: string | (() => string);
+    pattern: string | ((pageData: PageData) => string);
     /**
      * Link text
      *
@@ -235,7 +246,7 @@ export type Sidebar = SidebarItem[] | {
         items: SidebarItem[];
     };
 };
-export type SocialType = 'discord' | 'github' | 'telegram' | 'warpcast' | 'x';
+export type SocialType = 'bluesky' | 'discord' | 'farcaster' | 'github' | 'telegram' | 'warpcast' | 'x';
 export type SocialItem = {
     /** Social icon to display. */
     icon: SocialType;

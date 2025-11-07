@@ -6,8 +6,8 @@ import { useLayout } from '../hooks/useLayout.js';
 import { debounce } from '../utils/debounce.js';
 import { deserializeElement } from '../utils/deserializeElement.js';
 import { AiCtaDropdown } from './AiCtaDropdown.js';
-import * as styles from './Outline.css.js';
 import { root as Heading, slugTarget } from './mdx/Heading.css.js';
+import * as styles from './Outline.css.js';
 export function Outline({ minLevel = 2, maxLevel: maxLevel_ = 3, highlightActive = true, onClickItem, showTitle = true, } = {}) {
     const { outlineFooter } = useConfig();
     const { showOutline, showAiCta } = useLayout();
@@ -17,15 +17,14 @@ export function Outline({ minLevel = 2, maxLevel: maxLevel_ = 3, highlightActive
         return maxLevel_;
     })();
     const active = useRef(true);
-    const { pathname, hash } = useLocation();
+    const { hash } = useLocation();
     const [headingElements, setHeadingElements] = useState([]);
-    // biome-ignore lint/correctness/useExhaustiveDependencies:
     useEffect(() => {
         if (typeof window === 'undefined')
             return;
         const elements = Array.from(document.querySelectorAll(`.${Heading}`));
         setHeadingElements(elements);
-    }, [pathname]);
+    }, []);
     const items = useMemo(() => {
         if (!headingElements)
             return [];
@@ -122,16 +121,18 @@ export function Outline({ minLevel = 2, maxLevel: maxLevel_ = 3, highlightActive
         window.addEventListener('scroll', callback);
         return () => window.removeEventListener('scroll', callback);
     }, [items]);
-    if (items.length === 0)
+    const hasItems = items.length > 0;
+    // If there are no items and no AI CTA, don't render anything
+    if (!hasItems && !showAiCta)
         return null;
-    const levelItems = items.filter((item) => item.level === minLevel);
-    return (_jsxs("aside", { className: styles.root, children: [showAiCta && _jsx(AiCtaDropdown, {}), _jsxs("nav", { className: styles.nav, children: [showTitle && _jsx("h2", { className: styles.heading, children: "On this page" }), _jsx(Items, { activeId: highlightActive ? activeId : null, items: items, onClickItem: () => {
+    const levelItems = hasItems ? items.filter((item) => item.level === minLevel) : [];
+    return (_jsxs("aside", { className: styles.root, children: [showAiCta && _jsx(AiCtaDropdown, {}), hasItems && (_jsxs("nav", { className: styles.nav, children: [showTitle && _jsx("h2", { className: styles.heading, children: "On this page" }), _jsx(Items, { activeId: highlightActive ? activeId : null, items: items, onClickItem: () => {
                             onClickItem?.();
                             active.current = false;
                             setTimeout(() => {
                                 active.current = true;
                             }, 500);
-                        }, levelItems: levelItems, setActiveId: setActiveId })] }), deserializeElement(outlineFooter)] }));
+                        }, levelItems: levelItems, setActiveId: setActiveId })] })), deserializeElement(outlineFooter)] }));
 }
 function Items({ activeId, items, levelItems, onClickItem, setActiveId, }) {
     return (_jsx("ul", { className: styles.items, children: levelItems.map(({ id, level, text }) => {

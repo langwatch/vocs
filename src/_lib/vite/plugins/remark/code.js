@@ -12,7 +12,7 @@ export function remarkCode() {
                 return;
             const [match, title] = node.meta?.match(/\[(.*)\]/) || [];
             if (match)
-                node.meta = node.meta?.replace(match, `title=\"${title}\"`);
+                node.meta = node.meta?.replace(match, `title="${title}"`);
         });
     };
 }

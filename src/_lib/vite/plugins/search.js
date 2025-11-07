@@ -104,9 +104,11 @@ export async function search() {
                 rootDir: config.rootDir,
                 twoslash: false,
             });
-            const rendered = await processMdx(file, mdx, {
+            const { html: rendered, frontmatter } = await processMdx(file, mdx, {
                 rehypePlugins,
             });
+            if (frontmatter.searchable === false)
+                return;
             const sections = splitPageIntoSections(rendered);
             if (sections.length === 0)
                 return;
@@ -114,9 +116,8 @@ export async function search() {
             const relativePagesDirPath = relative(config.rootDir, pagesDirPath);
             for (const section of sections) {
                 const id = `${fileId}#${section.anchor}`;
-                if (index.has(id)) {
+                if (index.has(id))
                     index.discard(id);
-                }
                 const relFile = slash(relative(config.rootDir, fileId));
                 const href = relFile.replace(relativePagesDirPath, '').replace(/\.(.*)/, '');
                 index.add({

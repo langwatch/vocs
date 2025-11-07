@@ -7,11 +7,11 @@ import { mergeRefs } from '../utils/mergeRefs.js';
 export const RouterLink = forwardRef((props, ref) => {
     const loadRoute = () => routes.find((route) => route.path === props.to)?.lazy();
     const { ref: intersectionRef, inView } = useInView();
-    // biome-ignore lint/correctness/useExhaustiveDependencies:
     useEffect(() => {
         if (inView)
             loadRoute();
-    }, [inView]);
+        // biome-ignore lint/correctness/useExhaustiveDependencies: _
+    }, [inView, loadRoute]);
     return _jsx(Link, { ref: mergeRefs(ref, intersectionRef), ...props });
 });
 //# sourceMappingURL=RouterLink.js.map

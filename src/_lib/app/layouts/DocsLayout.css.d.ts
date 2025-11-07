@@ -1,4 +1,4 @@
-export declare const leftGutterWidthVar: `var(--${string})` | `var(--${string}, ${string})` | `var(--${string}, ${number})`;
+export declare const leftGutterWidthVar: `var(--${string})`;
 export declare const root: string;
 export declare const content: string;
 export declare const content_withTopNav: string;

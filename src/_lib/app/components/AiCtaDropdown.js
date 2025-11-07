@@ -7,11 +7,11 @@ import { useConfig } from '../hooks/useConfig.js';
 import { usePageData } from '../hooks/usePageData.js';
 import * as styles from './AiCtaDropdown.css.js';
 import * as buttonStyles from './Button.css.js';
-import { Link } from './Link.js';
 import { CheckCircle } from './icons/CheckCircle.js';
 import { ChevronDown } from './icons/ChevronDown.js';
 import { Copy } from './icons/Copy.js';
 import { OpenAi } from './icons/OpenAi.js';
+import { Link } from './Link.js';
 export function AiCtaDropdown() {
     const { content } = usePageData();
     const { aiCta } = useConfig();
@@ -28,6 +28,8 @@ export function AiCtaDropdown() {
         navigator.clipboard.writeText(content ?? '');
     }, [content]);
     const query = useMemo(() => {
+        if (typeof window === 'undefined')
+            return '';
         const href = window.location.origin + location.pathname;
         if (typeof aiCta === 'object')
             return aiCta.query({ location: href });

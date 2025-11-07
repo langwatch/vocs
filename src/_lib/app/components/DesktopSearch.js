@@ -1,8 +1,8 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import * as Dialog from '@radix-ui/react-dialog';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import { useEffect, useState } from 'react';
 import { useQueryState } from 'nuqs';
+import { useEffect, useState } from 'react';
 import { useMediaQuery } from '../hooks/useMediaQuery.js';
 import { useSearchIndex } from '../hooks/useSearchIndex.js';
 import * as styles from './DesktopSearch.css.js';

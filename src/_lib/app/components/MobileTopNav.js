@@ -12,21 +12,21 @@ import { usePageData } from '../hooks/usePageData.js';
 import { useSidebar } from '../hooks/useSidebar.js';
 import { deserializeElement } from '../utils/deserializeElement.js';
 import { Icon } from './Icon.js';
+import { ChevronDown } from './icons/ChevronDown.js';
+import { ChevronRight } from './icons/ChevronRight.js';
+import { ChevronUp } from './icons/ChevronUp.js';
+import { Menu } from './icons/Menu.js';
 import { Link } from './Link.js';
 import { MobileSearch } from './MobileSearch.js';
 import * as styles from './MobileTopNav.css.js';
-import { NavLogo } from './NavLogo.js';
 import * as NavigationMenu from './NavigationMenu.js';
+import { NavLogo } from './NavLogo.js';
 import { Outline } from './Outline.js';
 import { Popover } from './Popover.js';
 import { RouterLink } from './RouterLink.js';
 import { Sidebar } from './Sidebar.js';
 import { Socials } from './Socials.js';
 import { ThemeToggle } from './ThemeToggle.js';
-import { ChevronDown } from './icons/ChevronDown.js';
-import { ChevronRight } from './icons/ChevronRight.js';
-import { ChevronUp } from './icons/ChevronUp.js';
-import { Menu } from './icons/Menu.js';
 MobileTopNav.Curtain = Curtain;
 export function MobileTopNav() {
     const config = useConfig();
@@ -70,7 +70,7 @@ function CompactNavigation({ items }) {
                                                 }), children: item.text }), _jsx(Accordion.Content, { className: styles.navigationContent, children: item.items?.map((item, i) => (_jsx(Link, { className: styles.navigationItem, href: item.link, onClick: () => setShowPopover(false), variant: "styleless", children: item.text }, i))) })] }, i));
                                 }), _jsx(TopNavEnd, {})] }), _jsxs("div", { className: styles.topNavPopoverFooter, children: [_jsx(Socials, {}), !theme?.colorScheme ? _jsx(ThemeToggle, {}) : null] })] })] }) }));
 }
-export function Curtain({ enableScrollToTop, }) {
+export function Curtain({ enableScrollToTop }) {
     const { pathname } = useLocation();
     const { layout, showSidebar } = useLayout();
     const { frontmatter = {} } = usePageData();
