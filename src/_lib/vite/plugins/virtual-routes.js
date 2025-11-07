@@ -3,6 +3,7 @@ import { glob } from 'node:fs/promises';
 import { extname, resolve } from 'node:path';
 import { getGitTimestamp } from '../utils/getGitTimestamp.js';
 import { resolveVocsConfig } from '../utils/resolveVocsConfig.js';
+import { convertMdxToMarkdown } from '../utils/mdxToMarkdown.js';
 export function virtualRoutes() {
     const virtualModuleId = 'virtual:routes';
     const resolvedVirtualModuleId = `\0${virtualModuleId}`;
@@ -45,8 +46,14 @@ export function virtualRoutes() {
                     if (pagePath.endsWith('index'))
                         pagePath = pagePath.replace(/index$/, '').replace(/\/$/, '');
                     code += `  { lazy: () => import("${path}"), path: "/${pagePath}", type: "${type}", filePath: "${filePath}", content: "${encodeURIComponent(content)}", lastUpdatedAt: ${lastUpdatedAt} },`;
-                    if (pagePath)
+                    if (pagePath) {
                         code += `  { lazy: () => import("${path}"), path: "/${pagePath}.html", type: "${type}", filePath: "${filePath}", content: "${encodeURIComponent(content)}", lastUpdatedAt: ${lastUpdatedAt} },`;
+                        // Add raw markdown route with converted content
+                        if (type === 'mdx') {
+                            const markdownContent = await convertMdxToMarkdown(path);
+                            code += `  { lazy: () => import("${path}"), path: "/${pagePath}.md", type: "raw-md", filePath: "${filePath}", content: "${encodeURIComponent(markdownContent)}", lastUpdatedAt: ${lastUpdatedAt} },`;
+                        }
+                    }
                 }
                 code += ']';
                 return code;
