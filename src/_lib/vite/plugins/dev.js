@@ -31,37 +31,6 @@ export function dev() {
             server.middlewares.use(serveStatic(resolve(rootDir, 'public')));
             server.middlewares.use(serveStatic(resolve(import.meta.dirname, '../../app/public')));
             return () => {
-                // Handle raw markdown requests
-                server.middlewares.use(async (req, res, next) => {
-                    const url = req.url && cleanUrl(req.url);
-                    if (!url?.endsWith('.md')) {
-                        next();
-                        return;
-                    }
-                    try {
-                        const virtualRoutesModule = await server.ssrLoadModule('virtual:routes');
-                        const routes = virtualRoutesModule.routes;
-                        const route = routes.find((r) => r.path === url);
-                        if (route && route.type === 'raw-md' && route.content) {
-                            res.statusCode = 200;
-                            res.setHeader('Content-Type', 'text/markdown; charset=utf-8');
-                            res.end(decodeURIComponent(route.content));
-                            return;
-                        }
-                        res.statusCode = 404;
-                        res.setHeader('Content-Type', 'text/plain');
-                        res.end('Not Found');
-                        return;
-                    }
-                    catch (error) {
-                        console.error('Error serving raw markdown:', error);
-                        res.statusCode = 500;
-                        res.setHeader('Content-Type', 'text/plain');
-                        res.end('Internal Server Error');
-                        return;
-                    }
-                });
-                // Handle HTML requests
                 server.middlewares.use(async (req, res, next) => {
                     const url = req.url && cleanUrl(req.url);
                     if (!url?.endsWith('.html')) {
