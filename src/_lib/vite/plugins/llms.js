@@ -67,7 +67,7 @@ export async function llms() {
                                     description = toMarkdown(n, { extensions: [mdxJsxToMarkdown()] }).trim();
                                     return;
                                 });
-                            llmsTxtContent.push(`- [${title}](${basePath}${path})${description ? `: ${description}` : ''}`);
+                            llmsTxtContent.push(`- [${title}](${basePath}${path}.md)${description ? `: ${description}` : ''}`);
                         });
                         visit(ast, (n) => n.type === 'heading', (n) => {
                             const node = n;
