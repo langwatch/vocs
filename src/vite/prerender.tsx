@@ -78,7 +78,7 @@ export async function prerender({ logger, outDir }: PrerenderParameters) {
       console.log('[vocs] Found source file:', sourceFile)
       try {
         const markdown = await convertMdxToMarkdown(sourceFile)
-        const mdFilePath = `${route}.md`.replace(/^\//, '')
+        const mdFilePath = `${isIndex ? `${route.replace(/\/$/, '')}` : route}.md`.replace(/^\//, '')
         const mdPath = resolve(outDir_resolved, mdFilePath)
         const mdPathDir = dirname(mdPath)
 
